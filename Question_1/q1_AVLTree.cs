@@ -17,6 +17,11 @@ namespace Question_1
         // Search by year
         // Display the most recent book
         // Display the number of books
+
+        // Necessary for this question:
+        // Insert
+        // Delete
+        // Self Balance
         q1_AVLNode Root;
         public void Insert(q1_AVLNode Node)
         {            
@@ -50,7 +55,7 @@ namespace Question_1
             if (Root != null)
             {
                 InOrderTraversalHelper(Root.Left);
-                Console.WriteLine($"{Root.Book.Title}");
+                Console.WriteLine($"{Root.Book.Title} - {Root.Book.Year}" );
                 InOrderTraversalHelper(Root.Right); 
             }
         } //Q2
@@ -109,34 +114,36 @@ namespace Question_1
                 }
                 else if (Root.Right != null) // Right child - need successor to replace node
                 {
-                    Root.Book.Year = Successor(Root);
-                    Root.Right = DeleteHelper(Root.Right,Root.Book.Year);
+                    q1_AVLNode succ = Successor(Root);
+                    Root.Book = succ.Book;
+                    Root.Right = DeleteHelper(Root.Right,succ.Book.Year);
                 }
                 else
                 {
-                    Root.Book.Year = Predecessor(Root);
-                    Root.Left = DeleteHelper(Root.Left, Root.Book.Year);
+                    q1_AVLNode pred = Predecessor(Root);
+                    Root.Book = pred.Book;
+                    Root.Left = DeleteHelper(Root.Left, pred.Book.Year);
                 }
             }
                 return Root;
         }
-        private int Successor(q1_AVLNode Node) // Find least value below the right child of this root node
+        private q1_AVLNode Successor(q1_AVLNode Node) // Find least value below the right child of this root node
         {
-            Root = Root.Right;
-            while (Root.Left != null)
+            q1_AVLNode current = Node.Right;
+            while (current.Left != null)
             {
-                Root = Root.Left;
+                current = current.Left;
             }
-            return Root.Book.Year;
+            return current;
         }
-        private int Predecessor(q1_AVLNode Node) // Fidn greatest value below the left child of this root node
+        private q1_AVLNode Predecessor(q1_AVLNode Node) // Fidn greatest value below the left child of this root node
         {
-            Root = Root.Left;
-            while (Root.Right != null)
+            q1_AVLNode current = Node.Left;
+            while (current.Right != null)
             {
-                Root = Root.Right;
+                current = current.Right;
             }
-            return Root.Book.Year;
+            return current;
         }
     }
 }
