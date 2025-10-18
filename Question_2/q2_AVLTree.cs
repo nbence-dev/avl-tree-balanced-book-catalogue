@@ -7,7 +7,7 @@ using System.Xml.Schema;
 
 namespace Question_2
 {
-    internal class q1_AVLTree
+    internal class q2_AVLTree
     {
         // Currently a BST (need rotations and self balancing to make AVL
         // https://www.youtube.com/watch?v=Gt2yBZAhsGM&t=123s
@@ -24,13 +24,13 @@ namespace Question_2
         // Delete
         // Self Balance
         // AVL Tree and not BST
-        q1_AVLNode Root;
-        public void Insert(q1_AVLNode Node)
+        q2_AVLNode Root;
+        public void Insert(q2_AVLNode Node)
         {            
             Root = InsertHelper(Root, Node);
             if (Root != null) Root.Parent = null;
         }
-        private q1_AVLNode InsertHelper(q1_AVLNode Root, q1_AVLNode Node)
+        private q2_AVLNode InsertHelper(q2_AVLNode Root, q2_AVLNode Node)
         {
             
             
@@ -86,7 +86,7 @@ namespace Question_2
         {
             InOrderTraversalHelper(Root);
         }
-        private void InOrderTraversalHelper(q1_AVLNode Root)
+        private void InOrderTraversalHelper(q2_AVLNode Root)
         {
             if (Root != null)
             {
@@ -99,7 +99,7 @@ namespace Question_2
         {
             return SearchHelper(Root, BookYear);
         } // Left for Q2 - however, necessary for delete
-        private bool SearchHelper(q1_AVLNode Root, int Year)
+        private bool SearchHelper(q2_AVLNode Root, int Year)
         {
             if (Root == null)
             {
@@ -128,7 +128,7 @@ namespace Question_2
             }
             
         }
-        private q1_AVLNode DeleteHelper(q1_AVLNode Root, int Year)
+        private q2_AVLNode DeleteHelper(q2_AVLNode Root, int Year)
         {
             if (Root == null)
             {
@@ -152,14 +152,14 @@ namespace Question_2
                 }
                 else if (Root.Right != null) // Right child - need successor to replace node
                 {
-                    q1_AVLNode succ = Successor(Root);
+                    q2_AVLNode succ = Successor(Root);
                     Root.Book = succ.Book;
                     Root.Right = DeleteHelper(Root.Right,succ.Book.Year);
                     if (Root.Right !=null) Root.Right.Parent = Root;
                 }
                 else
                 {
-                    q1_AVLNode pred = Predecessor(Root);
+                    q2_AVLNode pred = Predecessor(Root);
                     Root.Book = pred.Book;
                     Root.Left = DeleteHelper(Root.Left, pred.Book.Year);
                     if (Root.Left != null) Root.Left.Parent = Root;
@@ -201,18 +201,18 @@ namespace Question_2
             }
                 return Root;
         }
-        private q1_AVLNode Successor(q1_AVLNode Node) // Find least value below the right child of this root node
+        private q2_AVLNode Successor(q2_AVLNode Node) // Find least value below the right child of this root node
         {
-            q1_AVLNode current = Node.Right;
+            q2_AVLNode current = Node.Right;
             while (current.Left != null)
             {
                 current = current.Left;
             }
             return current;
         }
-        private q1_AVLNode Predecessor(q1_AVLNode Node) // Fidn greatest value below the left child of this root node
+        private q2_AVLNode Predecessor(q2_AVLNode Node) // Fidn greatest value below the left child of this root node
         {
-            q1_AVLNode current = Node.Left;
+            q2_AVLNode current = Node.Left;
             while (current.Right != null)
             {
                 current = current.Right;
@@ -221,23 +221,23 @@ namespace Question_2
         }
 
         // New functions for AVL..
-        private int GetHeight(q1_AVLNode Node) => Node?.Height ?? 0;
+        private int GetHeight(q2_AVLNode Node) => Node?.Height ?? 0;
 
-        private void UpdateHeight(q1_AVLNode Node)
+        private void UpdateHeight(q2_AVLNode Node)
         {
             if (Node == null) return;
             Node.Height = 1 + Math.Max(GetHeight(Node.Left), GetHeight(Node.Right));
         }
-        private int GetBalance(q1_AVLNode Node)
+        private int GetBalance(q2_AVLNode Node)
         {
             if (Node == null) return 0;
             return GetHeight(Node.Left) - GetHeight(Node.Right);
         }
 
-        private q1_AVLNode RightRotate(q1_AVLNode y)
+        private q2_AVLNode RightRotate(q2_AVLNode y)
         {
-            q1_AVLNode x = y.Left;
-            q1_AVLNode T2 = x?.Right;
+            q2_AVLNode x = y.Left;
+            q2_AVLNode T2 = x?.Right;
 
             // rotation
             x.Right = y;
@@ -255,10 +255,10 @@ namespace Question_2
             return x;
         }
 
-        private q1_AVLNode LeftRotate(q1_AVLNode x)
+        private q2_AVLNode LeftRotate(q2_AVLNode x)
         {
-            q1_AVLNode y = x.Right;
-            q1_AVLNode T2 = y?.Left;
+            q2_AVLNode y = x.Right;
+            q2_AVLNode T2 = y?.Left;
 
             //rotation
             y.Left = x;
@@ -278,7 +278,7 @@ namespace Question_2
 
         public void RecentBook()
         {
-            q1_Book Book = RecentBookHelper(Root).Book;
+            q2_Book Book = RecentBookHelper(Root).Book;
             if (Book == null)
             {
                 Console.WriteLine("No entries made");
@@ -287,13 +287,13 @@ namespace Question_2
             
             Console.WriteLine(Book.Title);
         }
-        private q1_AVLNode RecentBookHelper(q1_AVLNode Root)
+        private q2_AVLNode RecentBookHelper(q2_AVLNode Root)
         {
             if (Root == null)
             {
                 return null;
             }
-            q1_AVLNode current = Root;
+            q2_AVLNode current = Root;
             while (current.Right != null)
             {
                 current = current.Right;
@@ -314,7 +314,7 @@ namespace Question_2
             Console.WriteLine($"Total number of books in AVL Tree: {num}");
         }
         // https://www.geeksforgeeks.org/dsa/count-number-of-nodes-in-a-complete-binary-tree/
-        private int NumberOfBooksHelper(q1_AVLNode Root)
+        private int NumberOfBooksHelper(q2_AVLNode Root)
         {
             if (Root == null)
             {

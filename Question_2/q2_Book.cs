@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Question_2
 {
-    internal class q1_Book
+    internal class q2_Book
     {
-        public q1_Book(string title, string author, int year)
+        public q2_Book(string title, string author, int year)
         {
             Title = title;
             Author = author;

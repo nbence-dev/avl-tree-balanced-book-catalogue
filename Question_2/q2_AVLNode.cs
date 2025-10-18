@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace Question_2
 {
     // Currently a BST Node
-    internal class q1_AVLNode
+    internal class q2_AVLNode
     {
         // https://www.youtube.com/watch?v=lxHF-mVdwK8
-        public q1_AVLNode(q1_Book book)
+        public q2_AVLNode(q2_Book book)
         {
             Book = book;
             Left = null;
@@ -20,13 +20,13 @@ namespace Question_2
 
         }
 
-        public q1_Book Book { get; set; }
-        public q1_AVLNode Left { get; set; }
-        public q1_AVLNode Right
+        public q2_Book Book { get; set; }
+        public q2_AVLNode Left { get; set; }
+        public q2_AVLNode Right
         {
             get; set;
         }
-        public q1_AVLNode Parent { get; set; }
+        public q2_AVLNode Parent { get; set; }
         public int Height { get; set; }
     }
 }
