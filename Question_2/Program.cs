@@ -1,4 +1,4 @@
-﻿namespace Question_1
+﻿namespace Question_2
 {
     internal class Program
     {

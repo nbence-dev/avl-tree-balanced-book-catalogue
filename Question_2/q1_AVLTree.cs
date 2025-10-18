@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 
-namespace Question_1
+namespace Question_2
 {
     internal class q1_AVLTree
     {

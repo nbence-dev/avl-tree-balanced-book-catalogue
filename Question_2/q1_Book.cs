@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Question_1
+namespace Question_2
 {
     internal class q1_Book
     {
