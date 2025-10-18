@@ -9,9 +9,15 @@ namespace Question_1
     // Currently a BST Node
     internal class q1_AVLNode
     {
+        // https://www.youtube.com/watch?v=lxHF-mVdwK8
         public q1_AVLNode(q1_Book book)
         {
             Book = book;
+            Left = null;
+            Right = null;
+            Parent = null;
+            Height = 1;
+
         }
 
         public q1_Book Book { get; set; }
@@ -20,5 +26,7 @@ namespace Question_1
         {
             get; set;
         }
+        public q1_AVLNode Parent { get; set; }
+        public int Height { get; set; }
     }
 }

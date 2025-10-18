@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
 namespace Question_1
 {
@@ -22,27 +23,62 @@ namespace Question_1
         // Insert
         // Delete
         // Self Balance
+        // AVL Tree and not BST
         q1_AVLNode Root;
         public void Insert(q1_AVLNode Node)
         {            
             Root = InsertHelper(Root, Node);
+            if (Root != null) Root.Parent = null;
         }
         private q1_AVLNode InsertHelper(q1_AVLNode Root, q1_AVLNode Node)
         {
-            // Uses year to place nodes
-            int year = Node.Book.Year;
+            
+            
             if (Root == null)
             {
-                Root = Node;
-                return Root;
+                Node.Left = Node.Right = null;
+                Node.Parent = null;
+                Node.Height = 1;
+                return Node;
             }
-            else if (year < Root.Book.Year)
+            int year = Node.Book.Year;
+            
+            if (year < Root.Book.Year)
             {
                 Root.Left = InsertHelper(Root.Left,Node);
+                if (Root.Left != null) Root.Left.Parent = Root;
             }
             else
             {
                 Root.Right = InsertHelper(Root.Right, Node);
+                if (Root.Right != null) Root.Right.Parent = Root;
+            }
+            UpdateHeight(Root);
+            int balance = GetBalance(Root);
+
+            // Left Left
+            if (balance > 1 && year < Root.Left.Book.Year)
+            {
+                return RightRotate(Root);
+            }
+            // Right Right
+            if (balance < -1 && year >= Root.Right.Book.Year)
+            {
+                return LeftRotate(Root);
+            }
+            // Left Right
+            if (balance > 1 && year >= Root.Left.Book.Year)
+            {
+                Root.Left = LeftRotate(Root.Left);
+                if (Root.Left !=null) Root.Left.Parent = Root;
+                return RightRotate(Root);
+            }
+            // Right Left
+            if (balance < -1 && year < Root.Right.Book.Year)
+            {
+                Root.Right = RightRotate(Root.Right);
+                if (Root.Right != null) Root.Right.Parent = Root;
+                return LeftRotate(Root) ; 
             }
             return Root;
         }
@@ -98,31 +134,69 @@ namespace Question_1
             {
                 return Root;
             }
-            else if (Year < Root.Book.Year){
+            if (Year < Root.Book.Year){
                 Root.Left = DeleteHelper(Root.Left, Year);
+                if (Root.Left != null) Root.Left.Parent = Root;
             }
             else if (Year > Root.Book.Year)
             {
                 Root.Right = DeleteHelper(Root.Right, Year);
+                if (Root.Right != null) Root.Right.Parent = Root;
             }
             else // Found node
             {
                 // Check if leaf node
                 if (Root.Left == null && Root.Right == null)
                 {
-                    Root = null;
+                    return null;
                 }
                 else if (Root.Right != null) // Right child - need successor to replace node
                 {
                     q1_AVLNode succ = Successor(Root);
                     Root.Book = succ.Book;
                     Root.Right = DeleteHelper(Root.Right,succ.Book.Year);
+                    if (Root.Right !=null) Root.Right.Parent = Root;
                 }
                 else
                 {
                     q1_AVLNode pred = Predecessor(Root);
                     Root.Book = pred.Book;
                     Root.Left = DeleteHelper(Root.Left, pred.Book.Year);
+                    if (Root.Left != null) Root.Left.Parent = Root;
+                }
+            }
+            UpdateHeight(Root);
+            int balance = GetBalance(Root);
+            // Left heavy
+            if (balance > 1)
+            {
+                // Left-left
+                if (GetBalance(Root.Left) >= 0)
+                {
+                    return RightRotate(Root);
+                }
+                // Left-Right
+                else
+                {
+                    Root.Left = LeftRotate(Root.Left);
+                    if (Root.Left != null) Root.Left.Parent = Root;
+                    return RightRotate(Root);
+                }
+            }
+            // Right Heavy
+            if (balance < -1)
+            {
+                // Right-Right
+                if(GetBalance(Root.Right) <= 0)
+                {
+                    return LeftRotate(Root);
+                }
+                //Right-left
+                else
+                {
+                    Root.Right = RightRotate(Root.Right);
+                    if (Root.Right !=null) Root.Right.Parent = Root;
+                    return LeftRotate(Root);
                 }
             }
                 return Root;
@@ -144,6 +218,62 @@ namespace Question_1
                 current = current.Right;
             }
             return current;
+        }
+
+        // New functions for AVL..
+        private int GetHeight(q1_AVLNode Node) => Node?.Height ?? 0;
+
+        private void UpdateHeight(q1_AVLNode Node)
+        {
+            if (Node == null) return;
+            Node.Height = 1 + Math.Max(GetHeight(Node.Left), GetHeight(Node.Right));
+        }
+        private int GetBalance(q1_AVLNode Node)
+        {
+            if (Node == null) return 0;
+            return GetHeight(Node.Left) - GetHeight(Node.Right);
+        }
+
+        private q1_AVLNode RightRotate(q1_AVLNode y)
+        {
+            q1_AVLNode x = y.Left;
+            q1_AVLNode T2 = x?.Right;
+
+            // rotation
+            x.Right = y;
+            y.Left = T2;
+
+            //parents
+            x.Parent = y.Parent;
+            y.Parent =x;
+
+            if (T2 != null) T2.Parent = y;
+
+            // Update heights
+            UpdateHeight(y);
+            UpdateHeight(x);
+            return x;
+        }
+
+        private q1_AVLNode LeftRotate(q1_AVLNode x)
+        {
+            q1_AVLNode y = x.Right;
+            q1_AVLNode T2 = y?.Left;
+
+            //rotation
+            y.Left = x;
+            x.Right = T2;
+
+            // parents
+            y.Parent = x.Parent;
+            x.Parent = y;
+            if (T2 != null) T2.Parent = x;
+
+            //Heights
+            UpdateHeight(x);
+            UpdateHeight(y);
+
+            return y;
         }
     }
 }
