@@ -275,5 +275,55 @@ namespace Question_2
 
             return y;
         }
+
+        public void RecentBook()
+        {
+            q1_Book Book = RecentBookHelper(Root).Book;
+            if (Book == null)
+            {
+                Console.WriteLine("No entries made");
+                return;
+            }
+            
+            Console.WriteLine(Book.Title);
+        }
+        private q1_AVLNode RecentBookHelper(q1_AVLNode Root)
+        {
+            if (Root == null)
+            {
+                return null;
+            }
+            q1_AVLNode current = Root;
+            while (current.Right != null)
+            {
+                current = current.Right;
+            }
+
+            // https://www.geeksforgeeks.org/dsa/find-the-node-with-maximum-value-in-a-binary-search-tree/
+            return current;
+        }
+
+        public void NumberOfBooks()
+        {
+            int num = NumberOfBooksHelper(Root);
+            if (num == 0)
+            {
+                Console.WriteLine("No entries made");
+                return;
+            }
+            Console.WriteLine($"Total number of books in AVL Tree: {num}");
+        }
+        // https://www.geeksforgeeks.org/dsa/count-number-of-nodes-in-a-complete-binary-tree/
+        private int NumberOfBooksHelper(q1_AVLNode Root)
+        {
+            if (Root == null)
+            {
+                return 0;
+            }
+            int l = NumberOfBooksHelper(Root.Left);
+            int r= NumberOfBooksHelper(Root.Right);
+            return 1 + l + r;
+            
+        }
     }
 }

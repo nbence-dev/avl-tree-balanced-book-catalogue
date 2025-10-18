@@ -34,8 +34,19 @@
             Console.WriteLine("Displaying in order...");
             Thread.Sleep(1000);
             // Display each book in order (ascending)
-            AVLTree.InOrderTraversal();
             // Displaying again
+            AVLTree.InOrderTraversal();
+
+            // Display most recent book
+            Console.WriteLine("\nDisplaying most recent book by year...");
+            Thread.Sleep(1000);
+            AVLTree.RecentBook();
+
+            // Display total number of nodes
+            Console.WriteLine("\nCounting total number of books entered...");
+            Thread.Sleep(1000);
+            AVLTree.NumberOfBooks();
+
         }
         // For Code Cleanup
         static List<q1_Book> InstantiateList()
