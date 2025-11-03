@@ -8,7 +8,7 @@ namespace Question_2
 {
     internal class q2_Book
     {
-        public q2_Book(string title, string author, int year)
+        public q2_Book(string title, string author, int year) // Book class. Capture title, author, year
         {
             Title = title;
             Author = author;

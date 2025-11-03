@@ -12,11 +12,11 @@ namespace Question_2
         // https://www.youtube.com/watch?v=lxHF-mVdwK8
         public q2_AVLNode(q2_Book book)
         {
-            Book = book;
-            Left = null;
-            Right = null;
-            Parent = null;
-            Height = 1;
+            Book = book; // Contains book
+            Left = null; // Pointer to left node
+            Right = null; // Pointer to right node
+            Parent = null; // Pointer to parent node
+            Height = 1; // Height of each node
 
         }
 
